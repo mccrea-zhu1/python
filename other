@@ -1,0 +1,30 @@
+# -- coding: utf-8 --
+# 导入PYPDF2库
+from PyPDF2 import PdfFileReader, PdfFileWriter
+
+def split_single_pdf(read_file, start_page, end_page, pdf_file):
+    # 1. 获取原始pdf文件
+    fp_read_file = open(read_file, 'rb')
+    # 2. 将要分割的PDF内容格式化
+    pdf_input = PdfFileReader(fp_read_file)
+    # 3. 实例一个 PDF文件编写器
+    pdf_output = PdfFileWriter()
+    # 4. 把58到67页放到PDF文件编写器
+    for i in range(start_page, end_page):
+        pdf_output.addPage(pdf_input.getPage(i))
+    # 5. PDF文件输出
+    with open(pdf_file, 'wb') as pdf_out:
+        pdf_output.write(pdf_out)
+    print(f'{read_file}分割{start_page}页-{end_page}页完成，保存为{pdf_file}!')
+
+
+if __name__ == '__main__':
+    # 待切分文件文件名
+    in_pdf_name = "铁路规划.pdf"
+    # 切分后文件文件名
+    out_pdf_name = '内容.pdf'
+    # 切分开始页面
+    start = 3
+    # 切分结束页面
+    end = 4
+    split_single_pdf(in_pdf_name, start, end, out_pdf_name)
